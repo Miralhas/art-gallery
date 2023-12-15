@@ -10,5 +10,9 @@
 
 {% block content %}
 <h1>form</h1>
-{{form.as_p}}
+<form action="." method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button class="btn outline-btn">Log In</button>
+</form>
 {% endblock content %}
