@@ -1,0 +1,25 @@
+:root {
+    --text: #C1B2A0;
+    --background: #212224;
+    --primary: #BFA181;
+    --secondary: #BFA181;
+    --accent: #c38440;    
+    --card-bg: hsla(234, 34%, 12%, 0.2);
+}
+
+.form-title {
+    background-color: var(--primary);
+    color: #fff;
+    font-size: 30px; 
+    font-weight: 700; 
+}
+
+.errorlist{
+    padding: 0px;
+    padding-left: 20px;
+    margin: 0px;
+}
+
+.alert {
+    color: #fff;
+}
