@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: gallery-project
+Version: 0.1.0
+Requires-Dist: django
+Requires-Dist: django-widget-tweaks
+Requires-Dist: django-extensions
+Requires-Dist: pillow

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block style %} 
+    <link rel="stylesheet" href="{% static 'accounts/style.css' %}"> 
+{% endblock style %}
+
+{% block title %} Sign Up {% endblock title %}
+
+{% block content %}
+<h1>form</h1>
+{{form.as_p}}
+{% endblock content %}
