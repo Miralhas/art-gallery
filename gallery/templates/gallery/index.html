@@ -8,20 +8,58 @@
 {% endblock style %}
 
 {% block content %}
-    <section>
-        <div class="index-container container-fluid pt-4">
-            <div class="row shadow-lg">
-                <div class="col-12 col-lg-6 d-flex order-lg-first order-last justify-content-center flex-column flex-wrap">
-                    <h1 class="text-center" style="font-size: 30px;">The true work of art is but a shadow of the divine perfection.</h1>
-                    <div class="d-md-flex justify-content-center">
-                        <p style="color: #fff;" class="text-center"><small>- Michelangelo</small></p>
+    <section class="shadow-lg">
+        <div class="container-md mt-4">
+            <div class="row">
+                <div class="col-12 col-lg-6 d-flex order-lg-first order-last justify-content-center flex-column">
+                    <div class="text-lg-start text-center">
+                        <h1 class="h1-quote">The true work of art is but a shadow of the divine perfection.</h1>
+                        <p class="quote-author"><small>- Michelangelo</small></p>
                     </div>
-                    <div class="d-flex justify-content-center">
-                        <button class="btn outline-btn">Create Gallery</button>
+                    <div class="d-flex justify-content-lg-start justify-content-center">
+                        <button class="btn outline-btn">Create your own art Gallery</button>
                     </div>
                 </div>
-                <div class="col-12 col-lg-6 d-flex justify-content-center mb-3 mb-lg-0">
+                <div class="col-12 col-lg-6 d-flex justify-content-center mb-4 mb-lg-0">
                     <img src="{% static 'gallery/images/greek.png' %}" alt="" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="shadow-lg">
+        <div class="container-md pt-5">
+            <div class="row">
+                <div class="col-12 col-lg-6 p-0 mb-3 d-md-flex d-lg-block justify-content-center">
+                    <img src="{% static 'gallery/images/girl-earring.png' %}" alt="" class="img-fluid">
+                </div>
+                <div class="col-12 col-lg-6 mb-4 mb-lg-0 p-4 p-lg-0 d-flex align-items-center">
+                    <div class="ps-2 ps-lg-0">
+                        <h2 class="text-lg-start text-md-center">Design your own art gallery</h2>
+
+                        <div class="h2-paragraph mt-4 mt-md-5">
+                            <p>
+                                Your task is to design your own art gallery or museum. Imagine that you're the decision-maker, responsible for
+                                everything from its appearance to its purpose and audience.
+                            </p>
+                            
+                            <p>
+                                If you're unsure where to begin, consider a museum or gallery you've visited. Reflect on how you felt upon entering,
+                                what you remember about the experience, and what impressions it left on you.
+                            </p>
+                            
+                            <p>
+                                Think about the purpose of your gallery. Is it to showcase a specific type of art, to provide an educational
+                                experience, or to be a place for art appreciation and exploration? Your design should reflect this purpose and
+                                create an environment that encourages visitors to engage with the art in a meaningful way.
+                            </p>
+                            
+                            <p>
+                                Also, consider the audience for your gallery. Who will be visiting? What are their interests and expectations? How
+                                can you cater to these needs and preferences?
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

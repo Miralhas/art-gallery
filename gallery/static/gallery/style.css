@@ -1,8 +1,14 @@
-/* .hero {
-    background: url(hero/hero_img.png) no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 50vh;
-} */
+.h1-quote {
+    font-size: 30px;
+}
 
+.quote-author {
+    color: #fff; 
+    opacity: 0.6;
+}
+
+.h2-paragraph {
+    color: #fff; 
+    opacity: 0.7;
+    font-size: 1.175rem;
+}
