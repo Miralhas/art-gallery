@@ -24,8 +24,8 @@ class CreateGalleryView(LoginRequiredMixin, CreateView):
         new_gallery = form.save(commit=False)
         new_gallery.owner = self.request.user
         new_gallery.slug = slugify(new_gallery.gallery_name)
+        # cover_photo =
         new_gallery.save()
-
         self.success_url = reverse("gallery:gallery", args=(new_gallery.owner.username, new_gallery.slug))
         
         return super().form_valid(form)

@@ -3,6 +3,13 @@ from django.urls import reverse
 
 from accounts.models import User
 
+
+def gallery_cover_photo_path(instance, filename):
+    return 'user_{0}/gallery/cover_photo/{1}'.format(instance.owner.id, filename)
+
+def user_gallery_path(instance, filename):
+    return 'user_{0}/gallery/{1}'.format(instance.owner.id, filename)
+
 # Create your models here.
 
 class Gallery(models.Model):
@@ -11,6 +18,7 @@ class Gallery(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     description = models.TextField(blank=True)
     is_public = models.BooleanField(default=True)
+    cover_photo = models.ImageField(upload_to=gallery_cover_photo_path, null=True, blank=True)
     slug = models.SlugField(max_length=255)
 
     def __str__(self):
@@ -23,7 +31,7 @@ class Gallery(models.Model):
 class Artwork(models.Model):
     gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE, related_name="artworks")
     title = models.CharField(max_length=255)
-    image = models.ImageField(upload_to="artworks/")
+    image = models.ImageField(upload_to=user_gallery_path, blank=False)
     description = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=255)

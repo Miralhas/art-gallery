@@ -46,7 +46,11 @@ class UserSignUpView(View):
         form = self.form_class(request.POST)
 
         if form.is_valid():
-            new_user = form.save()
+            new_user = form.save(commit=False)
+            profile_picture = request.FILES.get("profile_picture")
+            if profile_picture:
+                new_user.profile_picture = profile_picture
+            new_user.save()
             login(request, new_user)
             return HttpResponseRedirect(reverse("gallery:index"))
         else:

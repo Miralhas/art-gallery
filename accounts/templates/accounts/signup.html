@@ -25,7 +25,7 @@
                         <span>Gallery2You</span>
                     </div>
                     <div class="card-body shadow-lg">
-                        <form action="." method="post">
+                        <form action="." method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="mb-3">
                                 <label for="{{form.email.id_for_label}}" class="form-label">Email</label>
@@ -49,6 +49,11 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="mb-3">
+                                <label for="formFileMultiple" class="form-label">Profile Picture <small class="text-warning">(optional)</small> </label>
+                                <input class="form-control" type="file" name="profile_picture" id="formFile">
+                            </div>
+
                             <div class="d-flex justify-content-center">
                                 <button type="submit" class="btn outline-btn mt-3">Sign Up</button>
                             </div>
