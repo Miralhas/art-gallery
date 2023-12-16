@@ -27,6 +27,7 @@
                     <div class="card-body shadow-lg">
                         <form action="." method="post">
                             {% csrf_token %}
+                            <input type="hidden" name="next" value="{{next}}">
                             <div class="mb-3">
                                 <label for="{{form.username.id_for_label}}" class="form-label">Email</label>
                                 {% render_field form.username class+="form-control" %}

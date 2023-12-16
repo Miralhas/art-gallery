@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Create your own Gallery {% endblock title %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'gallery/style.css' %}">
+{% endblock style %}
+
+{% block content %}
+    <div class="container" data-bs-theme="dark">
+        <div class="row">
+            <div class="col">
+                <h1>
+                    {{gallery.owner}}
+                    {{gallery.gallery_name}}
+                    {{gallery.description}}
+                    {{gallery.created}}
+                    {{gallery.is_public}}
+                </h1>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

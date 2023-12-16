@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Create your own Gallery {% endblock title %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'gallery/style.css' %}">
+{% endblock style %}
+
+{% block content %}
+    <form action="{% url 'gallery:create_gallery' %}" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Submit</button>
+    </form>
+{% endblock content %}
