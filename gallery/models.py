@@ -9,6 +9,7 @@ class Gallery(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     description = models.TextField(blank=True)
     is_public = models.BooleanField(default=True)
+    slug = models.SlugField(max_length=255)
 
 
 class Artwork(models.Model):
@@ -17,3 +18,4 @@ class Artwork(models.Model):
     image = models.ImageField(upload_to="artworks/")
     description = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
+    slug = models.SlugField(max_length=255)

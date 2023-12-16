@@ -4,5 +4,5 @@ from gallery import views
 app_name = "gallery"
 
 urlpatterns = [
-    path("", views.index, name="index")
+    path("", views.IndexView.as_view(), name="index")
 ]
