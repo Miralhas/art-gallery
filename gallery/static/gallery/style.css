@@ -1,3 +1,33 @@
+@keyframes fadeOutAndCollapse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+        height: 100%;
+        padding: initial;
+    }
+    100% {
+        opacity: 0;
+        height: 0;
+        padding: 0;
+    }
+}
+
+@keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+  
+.fade-in {
+    animation: fadeIn 0.5s;
+}
+
+.fade-out {
+    animation: fadeOutAndCollapse 1s forwards;
+}
+
+
 .h1-quote {
     font-size: 30px;
 }
@@ -11,4 +41,24 @@
     color: #fff; 
     opacity: 0.7;
     font-size: 1.175rem;
+}
+
+.create-gallery-img {
+    height: 596px;
+}
+
+.create-gallery-paragraph {
+    font-size: 1.2em; 
+    color: #fff; 
+    opacity: 0.8;
+}
+
+.create-gallery-ul {
+    color: #fff; 
+    opacity: 0.7;
+}
+
+.start-btn-icon {
+    position: relative; 
+    top: 2px;
 }

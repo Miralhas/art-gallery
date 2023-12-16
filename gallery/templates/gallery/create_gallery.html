@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block title %} Create your own Gallery {% endblock title %}
 
@@ -8,9 +9,60 @@
 {% endblock style %}
 
 {% block content %}
-    <form action="{% url 'gallery:create_gallery' %}" method="post">
-        {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit">Submit</button>
-    </form>
+    <section class="information-section shadow-lg">
+        <div class="container p-3">
+            <div class="row">
+                <div class="col-12 col-lg-6 d-flex justify-content-center mb-4 mb-lg-0">
+                    <img src="{% static 'gallery/images/athena.png' %}" class="create-gallery-img img-fluid">
+                </div>
+                <div class="col-12 col-lg-6 mb-4 mb-lg-0 p-4 d-flex flex-column justify-content-center">
+                    <h1 class="text-center text-lg-start mb-3">Your Gallery</h1>
+                    <p class="create-gallery-paragraph ps-2">When thinking about your gallery, answer these questions:</p>
+                    <ul class="create-gallery-ul">
+                        <li class="mb-2">What is it called and why?</li>
+                        <li class="mb-2">What are its beliefs and principles?</li>
+                        <li class="mb-2">Who do you want to come and how will you encourage them to visit?</li>
+                        <li class="mb-2">What kinds of artworks and objects does it collect and why?</li>
+                        <li class="mb-2">What types of events or programs will you host to engage your audience?</li>
+                        <li class="mb-2">What kind of atmosphere or emotions do you want to evoke in visitors to your gallery?</li>
+                        <li class="mb-2">How will your gallery contribute to the broader art community or society as a whole?</li>
+                    </ul>
+                    <div class="d-flex justify-content-end">
+                        <a id="start-btn" class="btn outline-btn px-4">Start <i class="bi bi-arrow-right start-btn-icon ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="formSection" class="form-section shadow-lg d-none">
+        <div class="container p-3" data-bs-theme="dark">
+            <div class="row justify-content-center pt-3 mt-3">
+                <div class="col-12 col-lg-6 p-3">
+                    <h1 class="text-center">Create your Gallery</h1>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="{{form.gallery_name.id_for_label}}" class="form-label">Gallery Name</label>
+                            {% render_field form.gallery_name class+="form-control" %}
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{form.description.id_for_label}}" class="form-label">Gallery Description</label>
+                            {% render_field form.description class+="form-control" rows=5 %}
+                        </div>
+                        <div class="mb-3 form-check">
+                            {% render_field form.is_public class+="form-check-input" %}
+                            <label for="{{form.is_public.id_for_label}}" class="form-check-label">Public</label>
+                        </div>
+
+                        <button class="btn outline-btn">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock content %}
+
+{% block script %}
+    <script src="{% static 'gallery/script.js' %}"></script>
+{% endblock script %}
