@@ -88,7 +88,21 @@
 }
 
 .card {
+    width: 20rem;
+    height: 30.32em;
     border: solid #BFA181;
-    border-width: thin;
-    
+    border-width: thin; 
+}
+
+.card-title {
+    font-size: 22px;
+}
+
+.card-text {
+    color: #fff;
+    opacity: 0.7;
+}
+
+.gallery-information-div {
+    height: 90%;
 }

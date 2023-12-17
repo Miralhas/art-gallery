@@ -1,13 +1,16 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.utils.text import slugify
 from django.views.generic import CreateView
-from django.views.generic.base import TemplateView
+from django.views.generic.base import TemplateView, View
 from django.views.generic.detail import DetailView
 
-from gallery.forms import CreateGalleryForm
+from accounts.models import User
+from gallery.forms import CreateArtworkForm, CreateGalleryForm
 from gallery.models import Artwork, Gallery
+from gallery.utils import unique_slugify
+
 
 # Create your views here.
 
@@ -23,7 +26,7 @@ class CreateGalleryView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         new_gallery = form.save(commit=False)
         new_gallery.owner = self.request.user
-        new_gallery.slug = slugify(new_gallery.gallery_name)
+        new_gallery.slug = unique_slugify(self, string_to_slugify=new_gallery.gallery_name, model=self.model)
         # cover_photo =
         new_gallery.save()
         self.success_url = reverse("gallery:gallery", args=(new_gallery.owner.username, new_gallery.slug))
@@ -31,12 +34,40 @@ class CreateGalleryView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+class CreateArtworkView(LoginRequiredMixin, View):
+    model = Artwork
+    form_class = CreateArtworkForm
+
+    def post(self, request, **kwargs):
+        user = User.objects.get(username=kwargs["username"])
+        if user != request.user:
+            return HttpResponseRedirect(reverse("gallery:index"))
+        gallery = Gallery.objects.get(slug=kwargs["slug"])
+
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            new_artwork = form.save(commit=False)
+            new_artwork.gallery = gallery
+            new_artwork.slug = unique_slugify(self, string_to_slugify=new_artwork.title, model=self.model)
+            new_artwork.save()
+        else:
+            print("invalid")
+
+        return HttpResponseRedirect(reverse("gallery:gallery", args=(gallery.owner.username, gallery.slug)))
+
+
+
 class UserGallerieView(DetailView):
     model = Gallery
     template_name = "gallery/user_gallery.html"
     context_object_name = "gallery"
+    form_class = CreateArtworkForm
 
     def get_context_data(self, **kwargs):
+        gallery = Gallery.objects.get(slug=self.kwargs["slug"])
         context = super().get_context_data(**kwargs)
-        context["range"] = range(0, 5)
+        context["artworks"] = gallery.artworks.all()
+        context["form"] = CreateArtworkForm()
         return context
+
+    
