@@ -35,3 +35,8 @@ class UserGallerieView(DetailView):
     model = Gallery
     template_name = "gallery/user_gallery.html"
     context_object_name = "gallery"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["range"] = range(0, 5)
+        return context

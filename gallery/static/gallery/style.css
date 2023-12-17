@@ -17,8 +17,9 @@
 @keyframes fadeIn {
     0% {opacity: 0;}
     100% {opacity: 1;}
-  }
-  
+}
+
+/* Utilities Classes */
 .fade-in {
     animation: fadeIn 0.5s;
 }
@@ -27,6 +28,8 @@
     animation: fadeOutAndCollapse 1s forwards;
 }
 
+
+/* index.html Classes */
 
 .h1-quote {
     font-size: 30px;
@@ -42,6 +45,9 @@
     opacity: 0.7;
     font-size: 1.175rem;
 }
+
+
+/* create_gallery.html Classes */
 
 .create-gallery-img {
     height: 596px;
@@ -61,4 +67,28 @@
 .start-btn-icon {
     position: relative; 
     top: 2px;
+}
+
+
+/* user_gallery.html Classes */
+
+.gallery-cover-photo {
+    max-height: 325px; 
+    max-width: 275px;
+}
+
+.gallery-paragraph {
+    color: #fff; 
+    opacity: 0.7;
+}
+
+.gallery-artwork-card-img {
+    max-height: 325px; 
+    max-width: 275px;
+}
+
+.card {
+    border: solid #BFA181;
+    border-width: thin;
+    
 }
