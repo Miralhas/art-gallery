@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} Create your own Gallery {% endblock title %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'gallery/style.css' %}">
+{% endblock style %}
+
+{% block content %}
+    <section class="shadow-lg pb-3">
+        <div class="container-md">
+            <div class="row p-3 justify-content-center">
+                <div class="col-12">
+                    <div class="artwork-card p-3">
+                        <img src="{{artwork.image.url}}" alt="" class="mx-auto shadow-lg" style="max-height: 80vh; max-width: 60vw;">
+                        <div class="card-body pt-2">
+                            <div class="text-center" style="font-size: 1.5rem;">
+                                <i class="bi bi-star-fill me-2"></i>
+                                <i class="bi bi-star-fill me-2"></i>
+                                <i class="bi bi-star-fill me-2"></i>
+                                <i class="bi bi-star-fill me-2"></i>
+                                <i class="bi bi-star-fill me-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row p-3">
+                <div class="col d-flex flex-column">
+                    <div class="mb-2">
+                        <h1>{{artwork.title}}</h1>
+                    </div>
+                    <div>
+                        <p class="gallery-paragraph">{{artwork.description}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="shadow-lg mt-4 p-3">
+        <div class="container" data-bs-theme="dark">
+            <div class="row">
+                <div class="col">
+                    <div class="artwork-card" style="border: none;">
+                        <div class="card-body p-3">
+                            <label for="" class="form-label"><small>Comment as <span style="color: #BFA181;">{{user.username}}</span></small></label> 
+                            <textarea name="" id="" rows="5" class="form-control"></textarea>
+                            <button class="btn outline-btn btn-sm mt-2">Comment</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

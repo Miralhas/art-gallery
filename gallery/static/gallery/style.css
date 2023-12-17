@@ -1,3 +1,13 @@
+:root {
+    --text: #C1B2A0;
+    --background: #212224;
+    --primary: #BFA181;
+    --secondary: #BFA181;
+    --accent: #c38440;    
+    --card-bg: hsla(234, 34%, 12%, 0.2);
+}
+
+
 @keyframes fadeOutAndCollapse {
     0% {
         opacity: 1;
@@ -90,9 +100,15 @@
 .card {
     width: 20rem;
     height: 30.32em;
-    border: solid #BFA181;
+    border: solid var(--primary);
     border-width: thin; 
 }
+
+.artwork-card {
+    background-color: var(--background);
+    color: var(--primary);
+}
+
 
 .card-title {
     font-size: 22px;

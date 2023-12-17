@@ -39,5 +39,16 @@ class Artwork(models.Model):
     def __str__(self):
         return f"{self.gallery} | {self.title}"
     
-    # def get_absolute_path(self):
-    #     return reverse("gallery:artwork", args=(self.slug, ))
+    def get_absolute_path(self):
+        return reverse("gallery:artwork", args=(self.gallery.owner.username, self.gallery.slug, self.slug))
+    
+
+
+class Comment(models.Model):
+    artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE, related_name="comments")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments_made")
+    content = models.TextField(blank=False)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user}: {self.content[:25]}"

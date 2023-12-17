@@ -126,7 +126,7 @@
                                 <div class="card-title"><span>{{artwork.title}}</span></div>
                                 <div class="card-text"><span>{{artwork.description | truncatewords:3}}</span></div>
                                 <div class="text-center">
-                                    <button class="btn outline-btn mt-3">Inspect</button>
+                                    <a href="{% url 'gallery:artwork' gallery.owner.username gallery.slug artwork.slug  %}" class="btn outline-btn mt-3">Inspect</a>
                                 </div>
                             </div>
                         </div>

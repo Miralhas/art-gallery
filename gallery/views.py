@@ -7,10 +7,10 @@ from django.views.generic.base import TemplateView, View
 from django.views.generic.detail import DetailView
 
 from accounts.models import User
-from gallery.forms import CreateArtworkForm, CreateGalleryForm
+from gallery.forms import (CreateArtworkForm, CreateCommentForm,
+                           CreateGalleryForm)
 from gallery.models import Artwork, Gallery
 from gallery.utils import unique_slugify
-
 
 # Create your views here.
 
@@ -67,7 +67,18 @@ class UserGallerieView(DetailView):
         gallery = Gallery.objects.get(slug=self.kwargs["slug"])
         context = super().get_context_data(**kwargs)
         context["artworks"] = gallery.artworks.all()
-        context["form"] = CreateArtworkForm()
+        context["form"] = self.form_class()
         return context
+
+
+class ArtworkPageView(DetailView):
+    model = Artwork
+    template_name = "gallery/artwork.html"
+    context_object_name = "artwork"
+    form_class = CreateCommentForm
+
+    # def get_context_data(self, **kwargs):
+    #     context 
+    
 
     
