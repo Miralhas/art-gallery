@@ -1,16 +1,18 @@
+import json
+
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect
+from django.db.models import F
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic.base import TemplateView, View
 from django.views.generic.detail import DetailView
-from django.db.models import F
 
 from accounts.models import User
 from gallery.forms import (CreateArtworkForm, CreateCommentForm,
                            CreateGalleryForm)
-from gallery.models import Artwork, Gallery, Comment
+from gallery.models import Artwork, Comment, Gallery
 from gallery.utils import unique_slugify
 
 # Create your views here.
@@ -57,7 +59,6 @@ class CreateArtworkView(LoginRequiredMixin, View):
         return HttpResponseRedirect(reverse("gallery:gallery", args=(gallery.owner.username, gallery.slug)))
 
 
-
 class UserGallerieView(DetailView):
     model = Gallery
     template_name = "gallery/user_gallery.html"
@@ -99,4 +100,37 @@ class ArtworkPageView(DetailView):
         return HttpResponseRedirect(artwork.get_absolute_path())
     
 
+def edit_gallery_view(request, slug):
+    if request.method != "PUT":
+        return JsonResponse({"error": "PUT request required."}, status=400)
     
+    data = json.loads(request.body)
+    new_gallery_name = data["newGalleryName"]
+    new_gallery_description = data["newGalleryDescription"]
+
+    try:
+        gallery_owner = User.objects.get(email=data["galleryOwner"])
+    except User.DoesNotExist:
+        return JsonResponse({"message": "User provided does not exist!"}, status=404)
+    
+    try:
+        gallery = Gallery.objects.get(slug=data["gallerySlug"])
+    except Gallery.DoesNotExist:
+        return JsonResponse({"message": "Gallery provided does not exist!"}, status=404)
+    
+    if gallery.owner != gallery_owner:
+        return JsonResponse({"message": "User provided is not the gallery owner!"}, status=403)
+
+    newUrl = data["path"]
+    slug = gallery.slug
+
+    if gallery.gallery_name != new_gallery_name:
+        slug = unique_slugify(Gallery, string_to_slugify=new_gallery_name, model=Gallery)
+        newUrl = f"/galleries/{gallery.owner.username}/{slug}/"
+
+    gallery.gallery_name = new_gallery_name
+    gallery.description = new_gallery_description
+    gallery.slug = slug
+    gallery.save()
+    return JsonResponse({"message": "Ok", "newUrl": newUrl, "newSlug": slug}, status=200)
+

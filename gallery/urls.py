@@ -8,5 +8,7 @@ urlpatterns = [
     path("create-gallery", views.CreateGalleryView.as_view(), name="create_gallery"),
     path("create-artwork/<str:username>/<slug:slug>", views.CreateArtworkView.as_view(), name="create_artwork"),
     path("galleries/<str:username>/<slug:slug>/", views.UserGallerieView.as_view(), name="gallery"),
-    path("galleries/<str:username>/<slug:gallery_slug>/artworks/<slug:slug>", views.ArtworkPageView.as_view(), name="artwork")
+    path("galleries/<str:username>/<slug:gallery_slug>/artworks/<slug:slug>", views.ArtworkPageView.as_view(), name="artwork"),
+
+    path("api/edit-galleries/<slug:slug>", views.edit_gallery_view, name="edit_gallery")
 ]

@@ -196,3 +196,6 @@ opacity: 100%;
     width: 35px;
 }
 
+.btn {
+    border-radius: 0%;
+}

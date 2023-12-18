@@ -45,24 +45,18 @@
                         </div>
                         <div class="col-lg-8 col-12 p-3">
                             <div class="gallery-information-div d-flex flex-column justify-content-center">
-                                <h1 class="mb-3">{{gallery.gallery_name}}</h1>
-                                <p class="gallery-paragraph">
-                                    {{gallery.description}}
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat qui pariatur quam perspiciatis. Aspernatur cum ea
-                                    aliquid aut est quisquam molestiae veritatis blanditiis at! Eos quaerat perferendis minima fugiat optio. Temporibus,
-                                    nesciunt obcaecati fugiat repudiandae id esse consequuntur ad voluptatibus dicta quam reprehenderit. Odio incidunt
-                                    sapiente tempora nesciunt animi ea, iure excepturi suscipit architecto vero repellendus corporis fuga non veritatis,
-                                    odit praesentium dolorem amet dolore delectus, aperiam quam! Quisquam ducimus, velit placeat qui accusamus
-                                    blanditiis. Ratione consectetur explicabo aspernatur rerum maxime eum non dolorum unde excepturi quasi incidunt,
-                                    nemo molestias neque. Odit, nostrum repudiandae temporibus est doloremque mollitia repellendus labore!
-                                </p>
+                                <div id="editGalleryDiv">
+                                    {% csrf_token %}
+                                    <h1 class="mb-3 gallery-name">{{gallery.gallery_name}}</h1>
+                                    <p class="gallery-description gallery-paragraph">{{gallery.description}}</p>
+                                </div>
                             </div>
                             {% if user == gallery.owner %}
-                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="addArtworkModal" tabindex="-1" aria-labelledby="addArtworkModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Artwork</h1>
+                                                <h1 class="modal-title fs-5" id="addArtworkModalLabel">Add Artwork</h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -90,10 +84,10 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-3 col-4">
-                                        <button class="btn outline-btn me-2" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Artwork</button>
+                                        <button class="btn outline-btn me-2" data-bs-toggle="modal" data-bs-target="#addArtworkModal">Add Artwork</button>
                                     </div>
                                     <div class="col-lg-9 col d-flex justify-content-end">
-                                        <button class="btn outline-btn me-3">Edit Gallery</button>
+                                        <button id="editGalleryBtn" class="btn outline-btn me-3">Edit Gallery</button>
                                         <button class="btn outline-btn">Delete Gallery</button>
                                     </div>
                                 </div>
@@ -129,3 +123,12 @@
         </div>
     </section>
 {% endblock content %}
+
+{% block script %}
+    <script>
+        let slug = "{{gallery.slug}}";
+        const galleryOwner = "{{gallery.owner}}";
+        const path = "{{request.path}}";
+    </script>
+    <script src="{% static 'gallery/edit_gallery.js' %}"></script>
+{% endblock script %}
