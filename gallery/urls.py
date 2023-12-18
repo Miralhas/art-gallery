@@ -11,5 +11,6 @@ urlpatterns = [
     path("galleries/<str:username>/<slug:slug>/", views.UserGallerieView.as_view(), name="gallery"),
     path("galleries/<str:username>/<slug:gallery_slug>/artworks/<slug:slug>", views.ArtworkPageView.as_view(), name="artwork"),
 
-    path("api/edit-galleries/<slug:slug>", views.edit_gallery_view, name="edit_gallery")
+    path("api/edit-galleries/<slug:slug>", views.edit_gallery_view, name="edit_gallery"),
+    path("api/edit-artworks/<slug:slug>", views.edit_artwork_view, name="edit_artwork"),
 ]

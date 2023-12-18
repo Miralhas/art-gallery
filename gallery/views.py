@@ -106,13 +106,48 @@ class ArtworkPageView(DetailView):
         return HttpResponseRedirect(artwork.get_absolute_path())
     
 
+def edit_artwork_view(request, slug):
+    if request.method != "PUT":
+        return JsonResponse({"error": "PUT request required."}, status=400)
+    
+    data = json.loads(request.body)
+    new_artwork_title = data["newArtworkTitle"]
+    new_artwork_description = data["newArtworkDescription"]
+
+    try:
+        artwork_owner = User.objects.get(email=data["artworkOwner"])
+    except User.DoesNotExist:
+        return JsonResponse({"message": "User provided does not exist!"}, status=404)
+    
+    try:
+        artwork = Artwork.objects.get(slug=data["artworkSlug"])
+    except Artwork.DoesNotExist:
+        return JsonResponse({"message": "Artwork provided does not exist!"}, status=404)
+    
+    if artwork.gallery.owner != artwork_owner:
+        return JsonResponse({"message": "User provided is not the artwork owner!"}, status=403)
+
+    newUrl = data["path"]
+    slug = artwork.slug
+
+    if artwork.title != new_artwork_title:
+        slug = unique_slugify(Artwork, string_to_slugify=new_artwork_title, model=Artwork)
+        newUrl = f"/galleries/{artwork.gallery.owner.username}/{artwork.gallery.slug}/artworks/{slug}"
+
+    artwork.title = new_artwork_title
+    artwork.description = new_artwork_description
+    artwork.slug = slug
+    artwork.save()
+    return JsonResponse({"message": "Ok", "newUrl": newUrl, "newSlug": slug}, status=200)
+
+
 def edit_gallery_view(request, slug):
     if request.method != "PUT":
         return JsonResponse({"error": "PUT request required."}, status=400)
     
     data = json.loads(request.body)
-    new_gallery_name = data["newGalleryName"]
-    new_gallery_description = data["newGalleryDescription"]
+    new_gallery_name = data["newArtworkName"]
+    new_gallery_description = data["newArtworkDescription"]
 
     try:
         gallery_owner = User.objects.get(email=data["galleryOwner"])
