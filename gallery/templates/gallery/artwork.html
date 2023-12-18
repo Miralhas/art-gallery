@@ -14,14 +14,19 @@
             <div class="row p-3 justify-content-center">
                 <div class="col-12">
                     <div class="artwork-card p-3">
-                        <img src="{{artwork.image.url}}" alt="" class="mx-auto shadow-lg" style="max-height: 80vh; max-width: 60vw;">
+                        <img src="{{artwork.image.url}}" alt="" class="mx-auto shadow-lg artwork-img">
                         <div class="card-body pt-2">
-                            <div class="text-center" style="font-size: 1.5rem;">
-                                <i class="bi bi-star-fill me-2"></i>
-                                <i class="bi bi-star-fill me-2"></i>
-                                <i class="bi bi-star-fill me-2"></i>
-                                <i class="bi bi-star-fill me-2"></i>
-                                <i class="bi bi-star-fill me-2"></i>
+                            <div class="text-center artwork-stars">
+                                {% for _ in artwork.review_status.filled_stars %}
+                                    <i class="bi bi-star-fill me-2"></i>
+                                {% endfor %}
+
+                                {% for _ in artwork.review_status.unfilled_stars %}
+                                    <i class="bi bi-star me-2"></i>
+                                {% endfor %}
+                            </div>
+                            <div class="text-center">
+                                <span class="ps-2 artwork-rating">{{artwork.review_status.rating|floatformat:1}}</span>
                             </div>
                         </div>
                     </div>
@@ -46,23 +51,45 @@
                 <div class="col">
                     <div class="artwork-card">
                         <div class="card-body p-lg-3">
-                            <form action="{{artwork.get_absolute_path}}" method="post" id="review-form">
-                                {% csrf_token %}
-                                    <div class="py-2 stars">
-                                        {% for estrela in stars %}
-                                            <i id="estrela-{{estrela}}" class="bi bi-star-fill"></i>
-                                        {% endfor %}
-                                        <strong class="error-message" id="error-message">Escolha uma avaliação</strong>
-                                    </div>
-                                    <input type="hidden" id="starValue" name="starValue" value="">
-                                <label for="{{form.content.id_for_label}}" class="form-label"><small>Comment as <span style="color: #BFA181;">{{user.username}}</span></small></label>
-                                {% render_field form.content class+="form-control" rows=5 %}
-                                <button class="btn outline-btn btn-sm mt-2">Comment</button> 
-                            </form>
-                            <hr>
+                            {% if user.is_authenticated %}
+                                <form action="{{artwork.get_absolute_path}}" method="post" id="review-form">
+                                    {% csrf_token %}
+                                        <div class="py-2 stars" style="width: fit-content;">
+                                            {% for estrela in stars %}
+                                                <i id="estrela-{{estrela}}" class="bi bi-star-fill"></i>
+                                            {% endfor %}
+                                            <strong class="error-message" id="error-message">You need to pick a rating.</strong>
+                                        </div>
+                                        <input type="hidden" id="starValue" name="starValue" value="">
+                                    <label for="{{form.content.id_for_label}}" class="form-label"><small>Comment as <span class="comment-as">{{user.username}}</span></small></label>
+                                    {% render_field form.content class+="form-control" rows=5 %}
+                                    <button class="btn outline-btn btn-sm mt-2">Comment</button> 
+                                </form>
+                                {% else %}
+                                <a href="{% url 'auth:login' %}?next={{request.path}}" class="btn outline-btn">Leave a comment</a>
+                                {% endif %}
+                                <hr>
                             {% for comment in comments %}
-                                <p>{{comment.user}}</p>
-                                <p>{{comment.content}}</p>
+                               <div class="row mb-2">
+                                <div class="col-9">
+                                    <div class="comment-stars mb-2" style="height: min-content; width: fit-content;">
+                                        {% for _ in comment.filled_stars %}
+                                            <i class="bi bi-star-fill"></i>
+                                        {% endfor %}
+        
+                                        {% for _ in comment.unfilled_stars %}
+                                            <i class="bi bi-star"></i>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <img src="{{comment.user.profile_picture.url}}" alt="" class="comment-user-profile-picture img-fluid">
+                                        <div>
+                                            <span style="font-weight: 600; opacity: 1; font-size: 0.925rem;">@{{comment.user.username}}</span>
+                                            <p class="gallery-paragraph" style="opacity: 0.8;">{{comment.content}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                               </div>
                             {% endfor %}
                         </div>
                     </div>

@@ -20,6 +20,7 @@ class Gallery(models.Model):
     is_public = models.BooleanField(default=True)
     cover_photo = models.ImageField(upload_to=gallery_cover_photo_path, null=True, blank=True)
     slug = models.SlugField(max_length=255, unique=True, blank=False)
+    views = models.IntegerField(default=0)
 
     def __str__(self):
         return self.gallery_name
@@ -36,6 +37,26 @@ class Artwork(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=255, blank=False, unique=True)
 
+    @property
+    def review_status(self):
+        reviews = self.comments.all()
+
+        # status
+        total_reviews = len(reviews)
+        try:
+            rating = sum([review.stars for review in reviews]) // total_reviews
+        except ZeroDivisionError:
+            rating = 0
+        filled_stars = range(1, rating+1)
+        unfilled_stars = range(rating+1, 6)
+
+        return {
+            "total_reviews": total_reviews,
+            "rating": rating,
+            "filled_stars": filled_stars,
+            "unfilled_stars": unfilled_stars,
+        }
+
     def __str__(self):
         return f"{self.gallery} | {self.title}"
     
@@ -50,6 +71,18 @@ class Comment(models.Model):
     content = models.TextField(blank=False)
     date = models.DateTimeField(auto_now_add=True)
     stars = models.IntegerField(blank=False, null=True)
+
+    @property
+    def filled_stars(self):
+        estrelas = range(1, self.stars+1)
+
+        return estrelas
+    
+    @property
+    def unfilled_stars(self):
+        estrelas = range(self.stars+1, 6)
+
+        return estrelas
 
     def __str__(self):
         return f"{self.user}: {self.content[:25]}"

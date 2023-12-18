@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.views.generic import CreateView
 from django.views.generic.base import TemplateView, View
 from django.views.generic.detail import DetailView
+from django.db.models import F
 
 from accounts.models import User
 from gallery.forms import (CreateArtworkForm, CreateCommentForm,
@@ -65,13 +66,14 @@ class UserGallerieView(DetailView):
 
     def get_context_data(self, **kwargs):
         gallery = Gallery.objects.get(slug=self.kwargs["slug"])
+        Gallery.objects.filter(slug=self.kwargs["slug"]).update(views=F("views") + 1)
         context = super().get_context_data(**kwargs)
         context["artworks"] = gallery.artworks.all()
         context["form"] = self.form_class()
         return context
 
 
-class ArtworkPageView(LoginRequiredMixin, DetailView):
+class ArtworkPageView(DetailView):
     model = Artwork
     template_name = "gallery/artwork.html"
     context_object_name = "artwork"
@@ -86,13 +88,11 @@ class ArtworkPageView(LoginRequiredMixin, DetailView):
     
     def post(self, request, **kwargs):
         artwork = Artwork.objects.get(slug=kwargs["slug"])
-        user = User.objects.get(username=kwargs["username"])
         form = self.form_class(request.POST)
-        print(request.POST)
         if form.is_valid():
             new_comment = form.save(commit=False)
             new_comment.artwork = artwork
-            new_comment.user = user
+            new_comment.user = request.user
             new_comment.stars = request.POST.get("starValue")
             new_comment.save()
 

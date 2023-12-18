@@ -125,12 +125,29 @@
     color: var(--primary);
 }
 
+.artwork-img {
+    max-height: 80vh; 
+    max-width: 60vw;
+}
+
+.artwork-stars {
+    font-size: 1.5rem;
+}
+
+.artwork-rating {
+    font-size: 1.225rem; 
+    opacity: 0.9;
+    position: relative;
+    right: 7px;
+}
+
 .stars.disabled {
     pointer-events: none;
 }
 
+
 .stars i{
-opacity: 10%;
+    opacity: 10%;
 cursor: pointer;
 }
 
@@ -151,11 +168,31 @@ opacity: 100%;
 }
 
 .bi-star-fill {
-    padding-left: 4px; 
-    color: yellow;
+    padding-right: 2px; 
+    color: #d4af37;
 }
 
 .error-message {
-    color: red; 
+    color: rgba(255, 0, 0, 0.5); 
     display: none;
+    opacity: 0.9;
 }
+
+.comment-as {
+    color: var(--primary);
+}
+
+.comment-stars {
+    font-size: 0.8rem;
+}
+
+.comment-user-profile-picture {
+    border-radius: 50%;
+    border: none;
+    box-sizing: border-box;
+    height: 35px;
+    object-fit: cover;
+    object-position: center;
+    width: 35px;
+}
+

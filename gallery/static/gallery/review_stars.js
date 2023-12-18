@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
     const errorMessage = document.querySelector("#error-message");
+    const reviewForm = document.querySelector("#review-form")
     
-    if (document.querySelector("#review-form")){
-        document.querySelector("#review-form").addEventListener("submit", function(event){
+    if (reviewForm){
+        reviewForm.addEventListener("submit", (event) => {
             if (document.querySelector("#starValue").value === ""){
                 event.preventDefault();
                 errorMessage.style.display = "block";
