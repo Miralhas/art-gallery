@@ -34,6 +34,12 @@ document.addEventListener("DOMContentLoaded", () => {
             submitEditBtn.innerHTML = "Edit Gallery";
 
             editGalleryDiv.append(submitEditBtn);
+            
+            // const closeEditBtn = document.createElement("button");
+            // submitEditBtn.classList.add("btn", "outline-btn", "btn-sm", "ms-3");
+            // submitEditBtn.innerHTML = "Close";
+
+            // editGalleryDiv.append(closeEditBtn);
 
             submitEditBtn.addEventListener("click", function() {
                 const csrfToken = document.querySelector("[name='csrfmiddlewaretoken']").value;

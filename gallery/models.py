@@ -36,6 +36,7 @@ class Artwork(models.Model):
     description = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=255, blank=False, unique=True)
+    views = models.IntegerField(default=0)
 
     @property
     def review_status(self):

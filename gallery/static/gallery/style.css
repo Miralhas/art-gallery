@@ -93,13 +93,13 @@
 }
 
 .gallery-artwork-card-img {
-    max-height: 325px; 
-    max-width: 275px;
+    height: 250px; 
+    max-width: 230px;
 }
 
 .card {
     width: 20rem;
-    height: 30.32em;
+    height: 31em;
     border: solid var(--primary);
     border-width: thin; 
 }

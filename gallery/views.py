@@ -5,7 +5,7 @@ from django.db.models import F
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DeleteView
 from django.views.generic.base import TemplateView, View
 from django.views.generic.detail import DetailView
 
@@ -57,6 +57,11 @@ class CreateArtworkView(LoginRequiredMixin, View):
             print("invalid")
 
         return HttpResponseRedirect(reverse("gallery:gallery", args=(gallery.owner.username, gallery.slug)))
+    
+
+class DeleteGalleryView(LoginRequiredMixin, DeleteView):
+    model = Gallery
+    success_url = "/"
 
 
 class UserGallerieView(DetailView):
@@ -81,6 +86,7 @@ class ArtworkPageView(DetailView):
     form_class = CreateCommentForm
 
     def get_context_data(self, **kwargs):
+        Artwork.objects.filter(id=kwargs["object"].id).update(views=F("views") + 1)
         context = super().get_context_data(**kwargs)
         context["form"] = self.form_class()
         context["comments"] = Comment.objects.filter(artwork=kwargs["object"])
