@@ -9,7 +9,7 @@ from django.views.generic.detail import DetailView
 from accounts.models import User
 from gallery.forms import (CreateArtworkForm, CreateCommentForm,
                            CreateGalleryForm)
-from gallery.models import Artwork, Gallery
+from gallery.models import Artwork, Gallery, Comment
 from gallery.utils import unique_slugify
 
 # Create your views here.
@@ -71,14 +71,29 @@ class UserGallerieView(DetailView):
         return context
 
 
-class ArtworkPageView(DetailView):
+class ArtworkPageView(LoginRequiredMixin, DetailView):
     model = Artwork
     template_name = "gallery/artwork.html"
     context_object_name = "artwork"
     form_class = CreateCommentForm
 
-    # def get_context_data(self, **kwargs):
-    #     context 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = self.form_class()
+        context["comments"] = Comment.objects.filter(artwork=kwargs["object"])
+        return context
+    
+    def post(self, request, **kwargs):
+        artwork = Artwork.objects.get(slug=kwargs["slug"])
+        user = User.objects.get(username=kwargs["username"])
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.artwork = artwork
+            new_comment.user = user
+            new_comment.save()
+
+        return HttpResponseRedirect(artwork.get_absolute_path())
     
 
     
