@@ -104,11 +104,6 @@
     border-width: thin; 
 }
 
-.artwork-card {
-    background-color: var(--background);
-    color: var(--primary);
-}
-
 
 .card-title {
     font-size: 22px;
@@ -121,4 +116,46 @@
 
 .gallery-information-div {
     height: 90%;
+}
+
+/* artwork.html Classes */
+
+.artwork-card {
+    background-color: var(--background);
+    color: var(--primary);
+}
+
+.stars.disabled {
+    pointer-events: none;
+}
+
+.stars i{
+opacity: 10%;
+cursor: pointer;
+}
+
+.stars:hover i{
+opacity: 100%;
+}
+
+.stars i:hover{
+opacity: 100%;
+}
+
+.stars i:hover ~ i{
+opacity: 10%;
+}
+
+.stars i.active{
+opacity: 100%;
+}
+
+.bi-star-fill {
+    padding-left: 4px; 
+    color: yellow;
+}
+
+.error-message {
+    color: red; 
+    display: none;
 }

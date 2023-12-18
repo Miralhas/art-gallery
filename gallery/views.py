@@ -81,16 +81,19 @@ class ArtworkPageView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context["form"] = self.form_class()
         context["comments"] = Comment.objects.filter(artwork=kwargs["object"])
+        context["stars"] = range(1, 6)
         return context
     
     def post(self, request, **kwargs):
         artwork = Artwork.objects.get(slug=kwargs["slug"])
         user = User.objects.get(username=kwargs["username"])
         form = self.form_class(request.POST)
+        print(request.POST)
         if form.is_valid():
             new_comment = form.save(commit=False)
             new_comment.artwork = artwork
             new_comment.user = user
+            new_comment.stars = request.POST.get("starValue")
             new_comment.save()
 
         return HttpResponseRedirect(artwork.get_absolute_path())

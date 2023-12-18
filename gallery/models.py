@@ -49,6 +49,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments_made")
     content = models.TextField(blank=False)
     date = models.DateTimeField(auto_now_add=True)
+    stars = models.IntegerField(blank=False, null=True)
 
     def __str__(self):
         return f"{self.user}: {self.content[:25]}"
