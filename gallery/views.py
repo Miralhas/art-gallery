@@ -37,6 +37,11 @@ class CreateGalleryView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+class DeleteGalleryView(LoginRequiredMixin, DeleteView):
+    model = Gallery
+    success_url = "/"
+
+
 class CreateArtworkView(LoginRequiredMixin, View):
     model = Artwork
     form_class = CreateArtworkForm
@@ -59,9 +64,12 @@ class CreateArtworkView(LoginRequiredMixin, View):
         return HttpResponseRedirect(reverse("gallery:gallery", args=(gallery.owner.username, gallery.slug)))
     
 
-class DeleteGalleryView(LoginRequiredMixin, DeleteView):
-    model = Gallery
-    success_url = "/"
+class DeleteArtworkView(LoginRequiredMixin, DeleteView):
+    model = Artwork
+
+    def get_success_url(self):
+        gallery = Gallery.objects.get(artworks__slug="athena")
+        return gallery.get_absolute_path()
 
 
 class UserGallerieView(DetailView):
