@@ -154,8 +154,8 @@ def edit_gallery_view(request, slug):
         return JsonResponse({"error": "PUT request required."}, status=400)
     
     data = json.loads(request.body)
-    new_gallery_name = data["newArtworkName"]
-    new_gallery_description = data["newArtworkDescription"]
+    new_gallery_name = data["newGalleryName"]
+    new_gallery_description = data["newGalleryDescription"]
 
     try:
         gallery_owner = User.objects.get(email=data["galleryOwner"])

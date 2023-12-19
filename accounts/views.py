@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views import View
+from django.views.generic.detail import DetailView
 
 from accounts.forms import AuthForm, RegisterForm
 from accounts.models import User
@@ -25,13 +26,33 @@ class UserLoginView(LoginView):
 
 
 class UserProfileView(View):
-    pass
+    model = User
+    template_name = "accounts/profile.html"
+    
+    def get(self, request, username):
+        try:
+            username = User.objects.get(username=username)
+        except User.DoesNotExist:
+            username = None
+
+        # page_obj = {}
+        # if username is not None:
+        #     tweets = username.tweets.all()
+        #     paginator = Paginator(tweets, 5)
+        #     page_number = request.GET.get("page")
+        #     page_obj = paginator.get_page(page_number)
+
+        return render(request, self.template_name, context={
+            "user_profile":username,
+            # "page_obj": page_obj,
+        })
+
 
 
 class UserLogoutView(View):
     def get(self, request):
         logout(request)
-        return HttpResponseRedirect(reverse("gallery:index"))
+        return HttpResponseRedirect(request.GET.get("path", "/"))
 
 
 class UserSignUpView(View):

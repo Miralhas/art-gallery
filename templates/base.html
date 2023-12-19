@@ -53,7 +53,7 @@
 									</a>
 									<ul class="dropdown-menu dropdown-menu-end">
 									<li><a class="dropdown-item" href="#">Profile</a></li>
-									<li><a class="dropdown-item" href="{% url 'auth:logout' %}">Logout</a></li>
+									<li><a class="dropdown-item" href="{% url 'auth:logout' %}?path={{request.path}}">Logout</a></li>
 									<!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
 									</ul>
 								</li>
