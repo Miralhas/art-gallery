@@ -1,6 +1,7 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
 from django.core.paginator import Paginator
+from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -37,7 +38,8 @@ class UserProfileView(View):
 
         page_obj = {}
         if username is not None:
-            galleries = username.galleries.all()
+            User.objects.filter(pk=username.pk).update(views=F("views") + 1)
+            galleries = username.galleries.all().order_by("-created")
             paginator = Paginator(galleries, 3)
             page_number = request.GET.get("page")
             page_obj = paginator.get_page(page_number)
