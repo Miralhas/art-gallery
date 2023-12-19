@@ -1,6 +1,7 @@
 import json
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.db.models import F
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
@@ -10,8 +11,7 @@ from django.views.generic.base import TemplateView, View
 from django.views.generic.detail import DetailView
 
 from accounts.models import User
-from gallery.forms import (CreateArtworkForm, CreateCommentForm,
-                           CreateGalleryForm)
+from gallery.forms import CreateArtworkForm, CreateCommentForm, CreateGalleryForm
 from gallery.models import Artwork, Comment, Gallery
 from gallery.utils import unique_slugify
 
@@ -19,6 +19,12 @@ from gallery.utils import unique_slugify
 
 class IndexView(TemplateView):
     template_name = "gallery/index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["galleries"] = Gallery.objects.all().order_by("-views")[:3]
+
+        return context
 
 
 class CreateGalleryView(LoginRequiredMixin, CreateView):
@@ -81,9 +87,16 @@ class UserGallerieView(DetailView):
     def get_context_data(self, **kwargs):
         gallery = Gallery.objects.get(slug=self.kwargs["slug"])
         Gallery.objects.filter(slug=self.kwargs["slug"]).update(views=F("views") + 1)
+
+        artworks = gallery.artworks.all().order_by("-views")
+        paginator = Paginator(artworks, 6)
+        page_number = self.request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
         context = super().get_context_data(**kwargs)
-        context["artworks"] = gallery.artworks.all()
+        context["artworks"] = artworks
         context["form"] = self.form_class()
+        context["page_obj"] = page_obj
         return context
 
 
