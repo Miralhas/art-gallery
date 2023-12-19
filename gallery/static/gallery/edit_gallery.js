@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             const submitEditBtn = document.createElement("button");
             submitEditBtn.classList.add("btn", "outline-btn", "btn-sm", "mb-3");
-            submitEditBtn.innerHTML = "Edit Gallery";
+            submitEditBtn.innerHTML = "Save";
 
             editGalleryDiv.append(submitEditBtn);
             

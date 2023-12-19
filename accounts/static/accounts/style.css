@@ -23,3 +23,32 @@
 .alert {
     color: #fff;
 }
+
+
+/* profile.html classes */
+
+.gallery-cover-photo {
+    height: 250px; 
+    max-width: 230px;
+}
+
+.gallery-paragraph {
+    color: #fff; 
+    opacity: 0.7;
+}
+
+.galleries-card {
+    width: 20rem;
+    height: 31em;
+    border: solid var(--primary);
+    border-width: thin; 
+}
+
+.card-title {
+    font-size: 22px;
+}
+
+.card-text {
+    color: #fff;
+    opacity: 0.7;
+}

@@ -16,7 +16,7 @@
                     <p><span class="fs-5 fw-bold">Profile</span></p>
                 </div>
                 <div class="col-3">
-                    <p class="gallery-paragraph"><strong>Gallery Owner: </strong>{{gallery.owner.username}}</p>
+                    <p class="gallery-paragraph"><strong>Gallery Owner: </strong><a class="text-white" href="{{gallery.owner.get_absolute_path}}">{{gallery.owner.username}}</a></p>
                 </div>
 
                 <div class="col-3">

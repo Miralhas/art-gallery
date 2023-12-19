@@ -35,16 +35,16 @@ class UserProfileView(View):
         except User.DoesNotExist:
             username = None
 
-        # page_obj = {}
-        # if username is not None:
-        #     tweets = username.tweets.all()
-        #     paginator = Paginator(tweets, 5)
-        #     page_number = request.GET.get("page")
-        #     page_obj = paginator.get_page(page_number)
+        page_obj = {}
+        if username is not None:
+            galleries = username.galleries.all()
+            paginator = Paginator(galleries, 3)
+            page_number = request.GET.get("page")
+            page_obj = paginator.get_page(page_number)
 
         return render(request, self.template_name, context={
             "user_profile":username,
-            # "page_obj": page_obj,
+            "page_obj": page_obj,
         })
 
 

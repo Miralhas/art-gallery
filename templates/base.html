@@ -52,7 +52,7 @@
 										<i class="dropdown-icon d-flex bi bi-caret-down-fill ms-1 align-items-center"></i>
 									</a>
 									<ul class="dropdown-menu dropdown-menu-end">
-									<li><a class="dropdown-item" href="#">Profile</a></li>
+									<li><a class="dropdown-item" href="{{user.get_absolute_path}}">Profile</a></li>
 									<li><a class="dropdown-item" href="{% url 'auth:logout' %}?path={{request.path}}">Logout</a></li>
 									<!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
 									</ul>

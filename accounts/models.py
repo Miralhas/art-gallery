@@ -26,5 +26,5 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email
     
     def get_absolute_path(self):
-        return reverse("auth:profile", kwargs={"username": self.username})
+        return reverse("auth:user_profile", kwargs={"username": self.username})
     
