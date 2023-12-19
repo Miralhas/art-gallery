@@ -33,13 +33,24 @@ document.addEventListener("DOMContentLoaded", () => {
             submitEditBtn.classList.add("btn", "outline-btn", "btn-sm", "mb-3");
             submitEditBtn.innerHTML = "Edit artwork";
 
-            submitEditDiv.append(submitEditBtn);
-            
-            // const closeEditBtn = document.createElement("button");
-            // submitEditBtn.classList.add("btn", "outline-btn", "btn-sm", "ms-3");
-            // submitEditBtn.innerHTML = "Close";
+            const closeEditBtn = document.createElement("button");
+            closeEditBtn.classList.add("btn", "outline-btn", "btn-sm", "ms-3");
+            closeEditBtn.innerHTML = "Close";
 
-            // submitEditDiv.append(closeEditBtn);
+            const btnDiv = document.createElement("div");
+            btnDiv.classList.add("d-flex", "justify-content-start", "align-items-start");
+
+            btnDiv.append(submitEditBtn);
+            btnDiv.append(closeEditBtn);
+
+            submitEditDiv.append(btnDiv);
+
+            closeEditBtn.addEventListener("click", function() {
+                btnDiv.remove();
+                artworkTitleHeader.innerHTML = artworkTitle;
+                artworkDescriptionParagraph.innerHTML = artworkDescription;
+                editArtworkBtn.style.display = "block";
+            })
 
             submitEditBtn.addEventListener("click", function() {
                 const csrfToken = document.querySelector("[name='csrfmiddlewaretoken']").value;

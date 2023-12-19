@@ -33,13 +33,25 @@ document.addEventListener("DOMContentLoaded", () => {
             submitEditBtn.classList.add("btn", "outline-btn", "btn-sm", "mb-3");
             submitEditBtn.innerHTML = "Save";
 
-            editGalleryDiv.append(submitEditBtn);
             
-            // const closeEditBtn = document.createElement("button");
-            // submitEditBtn.classList.add("btn", "outline-btn", "btn-sm", "ms-3");
-            // submitEditBtn.innerHTML = "Close";
+            const closeEditBtn = document.createElement("button");
+            closeEditBtn.classList.add("btn", "outline-btn", "btn-sm", "ms-3");
+            closeEditBtn.innerHTML = "Close";
 
-            // editGalleryDiv.append(closeEditBtn);
+            const btnDiv = document.createElement("div");
+            btnDiv.classList.add("d-flex", "justify-content-start", "align-items-start");
+
+            btnDiv.append(submitEditBtn);
+            btnDiv.append(closeEditBtn);
+
+            editGalleryDiv.append(btnDiv);
+
+            closeEditBtn.addEventListener("click", function() {
+                btnDiv.remove();
+                galleryNameHeader.innerHTML = galleryName;
+                galleryDescriptionParagraph.innerHTML = galleryDescription;
+                editGalleryBtn.style.display = "block";
+            })
 
             submitEditBtn.addEventListener("click", function() {
                 const csrfToken = document.querySelector("[name='csrfmiddlewaretoken']").value;
@@ -67,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         galleryNameHeader.innerHTML = newGalleryNameInput.value;
                         galleryDescriptionParagraph.innerHTML = newDescriptionTextarea.value;
                         slug = data.newSlug;
-                        this.remove();
+                        btnDiv.remove();
                         editGalleryBtn.style.display = "block";
                     }
                 })
