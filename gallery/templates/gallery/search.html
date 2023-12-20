@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {{gallery.gallery_name}} {% endblock title %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'gallery/style.css' %}">
+{% endblock style %}
+
+{% block content %}
+
+    <section>
+        <div class="container-md" data-bg-theme="dark">
+            <div class="row justify-content-center mt-5 pt-5">
+                <div class="col-6 d-flex gap-2 justify-content-center">
+                    <a id="galleries-filter" class="filter outline-btn">Galleries</a>
+                    <a id="artworks-filter" class="filter outline-btn">Artworks</a>
+                    <a id="users-filter" class="filter outline-btn">Users</a>
+                </div>
+            </div>
+            <section id="galleries-section" class="section" style="display: block;">
+                <!-- <div class="container-md pt-5" data-bg-theme="dark"> -->
+                    <div class="row p-4">
+                        <h2 class="text-center mb-4">Galleries</h2>
+                        {% for gallery in galleries %}
+                            <div class="col-12 col-md-6 col-lg-4 mb-4 mt-3 d-flex justify-content-center ">
+                                <div class="card galleries-card">
+                                    <div class="mx-auto pt-3">
+                                        <img src="{{gallery.cover_photo.url}}" alt="" class="gallery-cover-photo card-img-top">
+                                    </div>
+                                    <div class="card-body d-flex flex-column pt-5">
+                                        <div class="card-title mt-3"><span>{{gallery.gallery_name | truncatechars:23}}</span></div>
+                                        <div class="card-text"><span>{{gallery.description | truncatewords:3}}</span></div>
+                                        <div class="d-flex justify-content-center align-items-end" style="height: 100%;">
+                                            <a href="{% url 'gallery:gallery' gallery.owner.username gallery.slug  %}" class="btn outline-btn">Inspect</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <p class="gallery-paragraph mt-5 text-center">There are no Galleries with this name...</p>
+                            <small class="text-center">Try searching for another.</small>
+                        {% endfor %}
+                    </div>
+                <!-- </div> -->
+            </section>
+
+            <section id="artworks-section" class="section" style="display: none;">
+                <!-- <div class="container-md pt-5" data-bg-theme="dark"> -->
+                    <div class="row p-4">
+                        <h2 class="text-center mb-4">Artworks</h2>
+                        {% for artwork in artworks %}
+                            <div class="col-12 col-md-6 col-lg-4 mb-4 d-flex justify-content-center">
+                                <div class="card">
+                                    <div class="mx-auto pt-3">
+                                        <img src="{{artwork.image.url}}" alt="" class="gallery-artwork-card-img card-img-top">
+                                    </div>
+                                    <div class="text-center pt-2">
+                                        {% for _ in artwork.review_status.filled_stars %}
+                                            <i class="bi bi-star-fill me-2"></i>
+                                        {% endfor %}
+
+                                        {% for _ in artwork.review_status.unfilled_stars %}
+                                            <i class="bi bi-star me-2"></i>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="text-center" style="height: fit-content;">
+                                        <span class="ps-2">{{artwork.review_status.rating|floatformat:1}}</span>
+                                    </div>
+                                    <div class="card-body d-flex flex-column pt-0">
+                                        <div class="card-title mt-3"><span>{{artwork.title | truncatechars:23}}</span></div>
+                                        <div class="card-text"><span>{{artwork.description | truncatewords:3}}</span></div>
+                                        <div class="d-flex justify-content-center align-items-end" style="height: 100%;">
+                                            <a href="{% url 'gallery:artwork' artwork.gallery.owner.username artwork.gallery.slug artwork.slug  %}" class="btn outline-btn">Inspect</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% empty %}
+                                <p class="gallery-paragraph mt-5 text-center">There are no Artworks with this name...</p>
+                                <small class="text-center">Try searching for another.</small>
+                        {% endfor %}
+                    </div>
+                <!-- </div> -->
+            </section>
+
+            <section id="users-section" class="section" style="display: none;">
+                <!-- <div class="container-md pt-5" data-bg-theme="dark"> -->
+                    <div class="row p-4">
+                        <h2 class="text-center mb-4">Users</h2>
+                        {% for user in users %}
+                            <div class="col-12 col-md-6 col-lg-4 mb-4 mt-3 d-flex justify-content-center ">
+                                <div class="card galleries-card">
+                                    <div class="mx-auto pt-3">
+                                        <img src="{{user.profile_picture.url}}" alt="" class="gallery-cover-photo card-img-top">
+                                    </div>
+                                    <div class="card-body d-flex flex-column pt-5">
+                                        <div class="card-title mt-3"><span>{{user.username | truncatechars:23}}</span></div>
+                                        <!-- <div class="card-text"><span>{{gallery.description | truncatewords:3}}</span></div> -->
+                                        <div class="d-flex justify-content-center align-items-end" style="height: 100%;">
+                                            <a href="{% url 'auth:user_profile' user.username %}" class="btn outline-btn">Inspect</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <p class="gallery-paragraph mt-5 text-center">There are no Users with this username...</p>
+                            <small class="text-center">Try searching for another.</small>
+                        {% endfor %}
+                    </div>
+                <!-- </div> -->
+            </section>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block script %}
+    <script>
+        const galleriesFilter = document.querySelector("#galleries-filter");
+        const artworksFilter = document.querySelector("#artworks-filter");
+        const usersFilter = document.querySelector("#users-filter");
+
+        const galleriesSection = document.querySelector("#galleries-section");
+        const artworksSection = document.querySelector("#artworks-section");
+        const usersSection = document.querySelector("#users-section");
+
+        artworksFilter.addEventListener("click", () => {
+            artworksSection.style.display = "block"
+            galleriesSection.style.display = "none";
+            usersSection.style.display = "none";
+        })
+
+        galleriesFilter.addEventListener("click", () => {
+            galleriesSection.style.display = "block";
+            artworksSection.style.display = "none";
+            usersSection.style.display = "none";
+        })
+
+        usersFilter.addEventListener("click", () => {
+            usersSection.style.display = "block";
+            artworksSection.style.display = "none"
+            galleriesSection.style.display = "none";
+        })
+
+
+        
+    </script>
+{% endblock script %}

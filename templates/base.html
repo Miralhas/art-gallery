@@ -39,8 +39,8 @@
 								<a class="nav-color nav-link" href="#">Link</a>
 							</li>
 						</ul>
-						<form class="d-flex" role="search">
-							<input class="header-form form-control me-2" type="search" placeholder="Search for Galleries" aria-label="Search" />
+						<form action="{% url 'gallery:search' %}" method="get" class="d-flex" role="search">
+							<input class="header-form form-control me-2" type="search" placeholder="Search for Galleries" aria-label="Search" name="q" />
 							<button class="btn outline-btn" type="submit">Search</button>
 						</form>
 						<ul class="navbar-nav ms-auto mb-2 mb-lg-0">

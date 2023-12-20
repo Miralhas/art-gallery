@@ -39,7 +39,7 @@ class UserProfileView(View):
         page_obj = {}
         if username is not None:
             User.objects.filter(pk=username.pk).update(views=F("views") + 1)
-            galleries = username.galleries.all().order_by("-created")
+            galleries = username.galleries.all().order_by("-views")
             paginator = Paginator(galleries, 3)
             page_number = request.GET.get("page")
             page_obj = paginator.get_page(page_number)

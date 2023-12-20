@@ -2,7 +2,7 @@ import json
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from django.db.models import F
+from django.db.models import F, Q
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -16,6 +16,7 @@ from gallery.models import Artwork, Comment, Gallery
 from gallery.utils import unique_slugify
 
 # Create your views here.
+
 
 class IndexView(TemplateView):
     template_name = "gallery/index.html"
@@ -34,11 +35,15 @@ class CreateGalleryView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         new_gallery = form.save(commit=False)
         new_gallery.owner = self.request.user
-        new_gallery.slug = unique_slugify(self, string_to_slugify=new_gallery.gallery_name, model=self.model)
+        new_gallery.slug = unique_slugify(
+            self, string_to_slugify=new_gallery.gallery_name, model=self.model
+        )
         # cover_photo =
         new_gallery.save()
-        self.success_url = reverse("gallery:gallery", args=(new_gallery.owner.username, new_gallery.slug))
-        
+        self.success_url = reverse(
+            "gallery:gallery", args=(new_gallery.owner.username, new_gallery.slug)
+        )
+
         return super().form_valid(form)
 
 
@@ -61,13 +66,17 @@ class CreateArtworkView(LoginRequiredMixin, View):
         if form.is_valid():
             new_artwork = form.save(commit=False)
             new_artwork.gallery = gallery
-            new_artwork.slug = unique_slugify(self, string_to_slugify=new_artwork.title, model=self.model)
+            new_artwork.slug = unique_slugify(
+                self, string_to_slugify=new_artwork.title, model=self.model
+            )
             new_artwork.save()
         else:
             print("invalid")
 
-        return HttpResponseRedirect(reverse("gallery:gallery", args=(gallery.owner.username, gallery.slug)))
-    
+        return HttpResponseRedirect(
+            reverse("gallery:gallery", args=(gallery.owner.username, gallery.slug))
+        )
+
 
 class DeleteArtworkView(LoginRequiredMixin, DeleteView):
     model = Artwork
@@ -112,7 +121,7 @@ class ArtworkPageView(DetailView):
         context["comments"] = Comment.objects.filter(artwork=kwargs["object"])
         context["stars"] = range(1, 6)
         return context
-    
+
     def post(self, request, **kwargs):
         artwork = Artwork.objects.get(slug=kwargs["slug"])
         form = self.form_class(request.POST)
@@ -124,26 +133,62 @@ class ArtworkPageView(DetailView):
             new_comment.save()
 
         return HttpResponseRedirect(artwork.get_absolute_path())
-    
+
 
 class GalleriesListView(ListView):
     model = Gallery
     template_name = "gallery/galleries_list.html"
     queryset = Gallery.objects.all().order_by("-views")
-    paginate_by = 6
+
+    def get_context_data(self, **kwargs):
+        paginator = Paginator(self.queryset, 6)
+        page_number = self.request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        context = super().get_context_data(**kwargs)
+        context["page_obj"] = page_obj
+        return context
 
 
 class ArtworkListView(ListView):
     model = Artwork
     template_name = "gallery/artworks_list.html"
     queryset = Artwork.objects.all().order_by("-views")
-    paginate_by = 6
+
+    def get_context_data(self, **kwargs):
+        paginator = Paginator(self.queryset, 6)
+        page_number = self.request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        context = super().get_context_data(**kwargs)
+        context["page_obj"] = page_obj
+        return context
+
+
+class SearchView(View):
+    template_name = "gallery/search.html"
+
+    def get(self, request, **kwargs):
+        q = request.GET.get("q")
+
+        querysets = {
+            "galleries": Gallery.objects.filter(
+                Q(gallery_name__icontains=q) | Q(description__icontains=q)
+            ).order_by("-views"),
+            "artworks": Artwork.objects.filter(
+                Q(title__icontains=q) | Q(description__icontains=q)
+            ).order_by("-views"),
+            "users": User.objects.filter(username__icontains=q).order_by("-views"),
+        }
+        print(querysets["galleries"])
+
+        return render(request, self.template_name, context=querysets)
 
 
 def edit_artwork_view(request, slug):
     if request.method != "PUT":
         return JsonResponse({"error": "PUT request required."}, status=400)
-    
+
     data = json.loads(request.body)
     new_artwork_title = data["newArtworkTitle"]
     new_artwork_description = data["newArtworkDescription"]
@@ -152,33 +197,39 @@ def edit_artwork_view(request, slug):
         artwork_owner = User.objects.get(email=data["artworkOwner"])
     except User.DoesNotExist:
         return JsonResponse({"message": "User provided does not exist!"}, status=404)
-    
+
     try:
         artwork = Artwork.objects.get(slug=data["artworkSlug"])
     except Artwork.DoesNotExist:
         return JsonResponse({"message": "Artwork provided does not exist!"}, status=404)
-    
+
     if artwork.gallery.owner != artwork_owner:
-        return JsonResponse({"message": "User provided is not the artwork owner!"}, status=403)
+        return JsonResponse(
+            {"message": "User provided is not the artwork owner!"}, status=403
+        )
 
     newUrl = data["path"]
     slug = artwork.slug
 
     if artwork.title != new_artwork_title:
-        slug = unique_slugify(Artwork, string_to_slugify=new_artwork_title, model=Artwork)
+        slug = unique_slugify(
+            Artwork, string_to_slugify=new_artwork_title, model=Artwork
+        )
         newUrl = f"/galleries/{artwork.gallery.owner.username}/{artwork.gallery.slug}/artworks/{slug}"
 
     artwork.title = new_artwork_title
     artwork.description = new_artwork_description
     artwork.slug = slug
     artwork.save()
-    return JsonResponse({"message": "Ok", "newUrl": newUrl, "newSlug": slug}, status=200)
+    return JsonResponse(
+        {"message": "Ok", "newUrl": newUrl, "newSlug": slug}, status=200
+    )
 
 
 def edit_gallery_view(request, slug):
     if request.method != "PUT":
         return JsonResponse({"error": "PUT request required."}, status=400)
-    
+
     data = json.loads(request.body)
     new_gallery_name = data["newGalleryName"]
     new_gallery_description = data["newGalleryDescription"]
@@ -187,25 +238,30 @@ def edit_gallery_view(request, slug):
         gallery_owner = User.objects.get(email=data["galleryOwner"])
     except User.DoesNotExist:
         return JsonResponse({"message": "User provided does not exist!"}, status=404)
-    
+
     try:
         gallery = Gallery.objects.get(slug=data["gallerySlug"])
     except Gallery.DoesNotExist:
         return JsonResponse({"message": "Gallery provided does not exist!"}, status=404)
-    
+
     if gallery.owner != gallery_owner:
-        return JsonResponse({"message": "User provided is not the gallery owner!"}, status=403)
+        return JsonResponse(
+            {"message": "User provided is not the gallery owner!"}, status=403
+        )
 
     newUrl = data["path"]
     slug = gallery.slug
 
     if gallery.gallery_name != new_gallery_name:
-        slug = unique_slugify(Gallery, string_to_slugify=new_gallery_name, model=Gallery)
+        slug = unique_slugify(
+            Gallery, string_to_slugify=new_gallery_name, model=Gallery
+        )
         newUrl = f"/galleries/{gallery.owner.username}/{slug}/"
 
     gallery.gallery_name = new_gallery_name
     gallery.description = new_gallery_description
     gallery.slug = slug
     gallery.save()
-    return JsonResponse({"message": "Ok", "newUrl": newUrl, "newSlug": slug}, status=200)
-
+    return JsonResponse(
+        {"message": "Ok", "newUrl": newUrl, "newSlug": slug}, status=200
+    )
