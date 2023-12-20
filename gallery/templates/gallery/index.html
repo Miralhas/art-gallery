@@ -66,7 +66,7 @@
     </section>
 
     <section class="shadow-lg">
-        <div class="container-md mt-5">
+        <div class="container-md mt-5 mb-5">
             <div class="row">
                 <h2 class="text-center mb-4">Most viewed Galleries</h2>
                 {% for gallery in galleries %}
@@ -89,8 +89,23 @@
                 {% endfor %}
             </div>
             <div class="row justify-content-center">
-                <div class="col-6 col-lg-3 d-grid mx-auto mb-4">
+                <div class="col-6 col-lg-3 d-grid mx-auto mb-5 mt-4">
                     <a href="" class="btn outline-btn">Se all Galleries</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="shadow-lg d-flex align-items-center" style="background-color: #b68d61; height: 200px;">
+        <div class="container-md">
+            <div class="row p-4 d-flex ">
+                <div class="col-lg-6 d-flex justify-content-end align-items-center mb-lg-0 mb-3">
+                    <h1 class="text-white text-center text-md-start">Create your own Art Galleries and display your Art!</h1>
+                </div>
+                <div class="col-lg-6 d-flex justify-content-center align-items-center">
+                    <div>
+                        <button class="btn btn-light">Create a Gallery</button>
+                    </div>
                 </div>
             </div>
         </div>

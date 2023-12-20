@@ -23,7 +23,6 @@ class IndexView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["galleries"] = Gallery.objects.all().order_by("-views")[:3]
-
         return context
 
 
