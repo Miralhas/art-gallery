@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             const submitEditBtn = document.createElement("button");
             submitEditBtn.classList.add("btn", "outline-btn", "btn-sm", "mb-3");
-            submitEditBtn.innerHTML = "Edit artwork";
+            submitEditBtn.innerHTML = "Save";
 
             const closeEditBtn = document.createElement("button");
             closeEditBtn.classList.add("btn", "outline-btn", "btn-sm", "ms-3");
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         artworkTitleHeader.innerHTML = newArtworkTitleInput.value;
                         artworkDescriptionParagraph.innerHTML = newDescriptionTextarea.value;
                         slug = data.newSlug;
-                        this.remove();
+                        btnDiv.remove();
                         editArtworkBtn.style.display = "block";
                     }
                 })

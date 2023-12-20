@@ -36,10 +36,16 @@
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 							<li class="nav-item">
-								<a class="nav-color nav-link" href="#">Link</a>
+								<a class="nav-color nav-link" href="{% url 'gallery:create_gallery' %}">Create Gallery</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-color nav-link" href="{% url 'gallery:galleries' %}">Galleries</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-color nav-link" href="{% url 'gallery:artworks' %}">Artworks</a>
 							</li>
 						</ul>
-						<form action="{% url 'gallery:search' %}" method="get" class="d-flex" role="search">
+						<form action="{% url 'gallery:search' %}" method="get" class="d-flex me-auto" role="search">
 							<input class="header-form form-control me-2" type="search" placeholder="Search for Galleries" aria-label="Search" name="q" />
 							<button class="btn outline-btn" type="submit">Search</button>
 						</form>
@@ -53,8 +59,8 @@
 									</a>
 									<ul class="dropdown-menu dropdown-menu-end">
 									<li><a class="dropdown-item" href="{{user.get_absolute_path}}">Profile</a></li>
+									<li><hr class="dropdown-divider"></li>
 									<li><a class="dropdown-item" href="{% url 'auth:logout' %}?path={{request.path}}">Logout</a></li>
-									<!-- <li><a class="dropdown-item" href="#">Something else here</a></li> -->
 									</ul>
 								</li>
 							{% else %}

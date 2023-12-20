@@ -188,9 +188,17 @@ html, body {
 }
 
 .nav-link:hover{
-    transform: scale(0.99);
+    transform: scale(1.1);
     transition: all 0.4s;
 }
+
+@media (max-width: 991px) {
+    .nav-link:hover {
+        transform: scale(1);
+        transition: all 0.4s;
+    }
+}
+
 
 .footer-icons-list {
     color: #fff;
