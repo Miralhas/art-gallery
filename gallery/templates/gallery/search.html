@@ -9,14 +9,13 @@
 {% endblock style %}
 
 {% block content %}
-
-    <section>
+    <section class="fade-in">
         <div class="container-md" data-bg-theme="dark">
             <div class="row justify-content-center mt-5 pt-5">
                 <div class="col-6 d-flex gap-2 justify-content-center">
-                    <a id="galleries-filter" class="filter outline-btn">Galleries</a>
-                    <a id="artworks-filter" class="filter outline-btn">Artworks</a>
-                    <a id="users-filter" class="filter outline-btn">Users</a>
+                    <a id="galleries-filter" class="filter">Galleries</a>
+                    <a id="artworks-filter" class="filter">Artworks</a>
+                    <a id="users-filter" class="filter">Users</a>
                 </div>
             </div>
             <section id="galleries-section" class="section" style="display: block;">
@@ -116,34 +115,5 @@
 {% endblock content %}
 
 {% block script %}
-    <script>
-        const galleriesFilter = document.querySelector("#galleries-filter");
-        const artworksFilter = document.querySelector("#artworks-filter");
-        const usersFilter = document.querySelector("#users-filter");
-
-        const galleriesSection = document.querySelector("#galleries-section");
-        const artworksSection = document.querySelector("#artworks-section");
-        const usersSection = document.querySelector("#users-section");
-
-        artworksFilter.addEventListener("click", () => {
-            artworksSection.style.display = "block"
-            galleriesSection.style.display = "none";
-            usersSection.style.display = "none";
-        })
-
-        galleriesFilter.addEventListener("click", () => {
-            galleriesSection.style.display = "block";
-            artworksSection.style.display = "none";
-            usersSection.style.display = "none";
-        })
-
-        usersFilter.addEventListener("click", () => {
-            usersSection.style.display = "block";
-            artworksSection.style.display = "none"
-            galleriesSection.style.display = "none";
-        })
-
-
-        
-    </script>
+    <script src="{% static 'gallery/search.js' %}"></script>
 {% endblock script %}

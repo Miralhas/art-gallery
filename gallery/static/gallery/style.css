@@ -1,206 +1,240 @@
 :root {
-    --text: #C1B2A0;
-    --background: #212224;
-    --primary: #BFA181;
-    --secondary: #BFA181;
-    --accent: #c38440;    
-    --card-bg: hsla(234, 34%, 12%, 0.2);
+	--text: #c1b2a0;
+	--background: #212224;
+	--primary: #bfa181;
+	--secondary: #bfa181;
+	--accent: #c38440;
+	--card-bg: hsla(234, 34%, 12%, 0.2);
 }
 
-
 @keyframes fadeOutAndCollapse {
-    0% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0;
-        height: 100%;
-        padding: initial;
-    }
-    100% {
-        opacity: 0;
-        height: 0;
-        padding: 0;
-    }
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+		height: 100%;
+		padding: initial;
+	}
+	100% {
+		opacity: 0;
+		height: 0;
+		padding: 0;
+	}
 }
 
 @keyframes fadeIn {
-    0% {opacity: 0;}
-    100% {opacity: 1;}
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }
 
 /* Utilities Classes */
 .fade-in {
-    animation: fadeIn 0.5s;
+	animation: fadeIn 2s forwards;
 }
 
 .fade-out {
-    animation: fadeOutAndCollapse 1s forwards;
+	animation: fadeOutAndCollapse 1s forwards;
 }
-
 
 /* index.html Classes */
 
 .h1-quote {
-    font-size: 30px;
+	font-size: 30px;
 }
 
 .quote-author {
-    color: #fff; 
-    opacity: 0.6;
+	color: #fff;
+	opacity: 0.6;
 }
 
 .h2-paragraph {
-    color: #fff; 
-    opacity: 0.7;
-    font-size: 1.175rem;
+	color: #fff;
+	opacity: 0.7;
+	font-size: 1.175rem;
 }
 
 .cta {
-    color: #fff;
-    background-color: var(--primary); 
-    height: 200px;
+	color: #fff;
+	background-color: var(--primary);
+	height: 200px;
 }
-
 
 /* create_gallery.html Classes */
 
 .create-gallery-img {
-    height: 596px;
+	height: 596px;
 }
 
 .create-gallery-paragraph {
-    font-size: 1.2em; 
-    color: #fff; 
-    opacity: 0.8;
+	font-size: 1.2em;
+	color: #fff;
+	opacity: 0.8;
 }
 
 .create-gallery-ul {
-    color: #fff; 
-    opacity: 0.7;
+	color: #fff;
+	opacity: 0.7;
 }
 
 .start-btn-icon {
-    position: relative; 
-    top: 2px;
+	position: relative;
+	top: 2px;
 }
-
 
 /* user_gallery.html Classes */
 
 .gallery-cover-photo {
-    max-height: 325px; 
-    max-width: 275px;
+	max-height: 325px;
+	max-width: 275px;
 }
 
 .gallery-paragraph {
-    color: #fff; 
-    opacity: 0.7;
+	color: #fff;
+	opacity: 0.7;
 }
 
 .gallery-artwork-card-img {
-    height: 250px; 
-    max-width: 230px;
+	height: 250px;
+	max-width: 230px;
 }
 
 .card {
-    width: 20rem;
-    height: 31em;
-    border: solid var(--primary);
-    border-width: thin; 
+	width: 20rem;
+	height: 31em;
+	border: solid var(--primary);
+	border-width: thin;
 }
 
 .card-title {
-    font-size: 22px;
+	font-size: 22px;
 }
 
 .card-text {
-    color: #fff;
-    opacity: 0.7;
+	color: #fff;
+	opacity: 0.7;
 }
 
 .gallery-information-div {
-    height: 90%;
+	height: 90%;
 }
 
 /* artwork.html Classes */
 
 .artwork-card {
-    background-color: var(--background);
-    color: var(--primary);
+	background-color: var(--background);
+	color: var(--primary);
 }
 
 .artwork-img {
-    max-height: 80vh; 
-    max-width: 60vw;
+	max-height: 80vh;
+	max-width: 60vw;
 }
 
 .artwork-stars {
-    font-size: 1.5rem;
+	font-size: 1.5rem;
 }
 
 .artwork-rating {
-    font-size: 1.225rem; 
-    opacity: 0.9;
-    position: relative;
-    right: 7px;
+	font-size: 1.225rem;
+	opacity: 0.9;
+	position: relative;
+	right: 7px;
 }
 
 .stars.disabled {
-    pointer-events: none;
+	pointer-events: none;
 }
 
-
-.stars i{
-    opacity: 10%;
-cursor: pointer;
+.stars i {
+	opacity: 10%;
+	cursor: pointer;
 }
 
-.stars:hover i{
-opacity: 100%;
+.stars:hover i {
+	opacity: 100%;
 }
 
-.stars i:hover{
-opacity: 100%;
+.stars i:hover {
+	opacity: 100%;
 }
 
-.stars i:hover ~ i{
-opacity: 10%;
+.stars i:hover ~ i {
+	opacity: 10%;
 }
 
-.stars i.active{
-opacity: 100%;
+.stars i.active {
+	opacity: 100%;
 }
 
 .bi-star-fill {
-    padding-right: 2px; 
-    color: #d4af37;
+	padding-right: 2px;
+	color: #d4af37;
 }
 
 .error-message {
-    color: rgba(255, 0, 0, 0.5); 
-    display: none;
-    opacity: 0.9;
+	color: rgba(255, 0, 0, 0.5);
+	display: none;
+	opacity: 0.9;
 }
 
 .comment-as {
-    color: var(--primary);
+	color: var(--primary);
 }
 
 .comment-stars {
-    font-size: 0.8rem;
+	font-size: 0.8rem;
 }
 
 .comment-user-profile-picture {
-    border-radius: 50%;
-    border: none;
-    box-sizing: border-box;
-    height: 35px;
-    object-fit: cover;
-    object-position: center;
-    width: 35px;
+	border-radius: 50%;
+	border: none;
+	box-sizing: border-box;
+	height: 35px;
+	object-fit: cover;
+	object-position: center;
+	width: 35px;
 }
 
 .btn {
-    border-radius: 0%;
+	border-radius: 0%;
+}
+
+/* search.html Classes */
+
+.section {
+	animation: fadeIn 1.3s forwards;
+}
+
+.filter {
+	display: inline-block;
+	position: relative;
+	color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+
+.filter::after {
+	content: '';
+	position: absolute;
+	width: 100%;
+	transform: scaleX(0);
+	height: 2px;
+	bottom: 0;
+	left: 0;
+	background-color: var(--primary);
+	transform-origin: bottom right;
+	transition: transform 0.25s ease-out;
+}
+
+.filter:hover::after {
+	transform: scaleX(1);
+	transform-origin: bottom left;
 }

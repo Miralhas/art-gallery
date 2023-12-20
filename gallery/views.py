@@ -180,8 +180,7 @@ class SearchView(View):
             ).order_by("-views"),
             "users": User.objects.filter(username__icontains=q).order_by("-views"),
         }
-        print(querysets["galleries"])
-
+        
         return render(request, self.template_name, context=querysets)
 
 
