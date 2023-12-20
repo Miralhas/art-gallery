@@ -56,6 +56,12 @@
     font-size: 1.175rem;
 }
 
+.cta {
+    color: #fff;
+    background-color: var(--primary); 
+    height: 200px;
+}
+
 
 /* create_gallery.html Classes */
 

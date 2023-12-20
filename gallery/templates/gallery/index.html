@@ -85,7 +85,7 @@
                         </div>
                     </div>
                     {% empty %}
-                    <p class="gallery-paragraph mt-5 text-center">This user has not created a gallery yet...</p>
+                    <p class="gallery-paragraph mt-5 text-center">There are no galleries yet...</p>
                 {% endfor %}
             </div>
             <div class="row justify-content-center">
@@ -96,15 +96,15 @@
         </div>
     </section>
 
-    <section class="shadow-lg d-flex align-items-center" style="background-color: #b68d61; height: 200px;">
+    <section class="cta shadow-lg d-flex align-items-center">
         <div class="container-md">
             <div class="row p-4 d-flex ">
                 <div class="col-lg-6 d-flex justify-content-end align-items-center mb-lg-0 mb-3">
-                    <h1 class="text-white text-center text-md-start">Create your own Art Galleries and display your Art!</h1>
+                    <h1 class="text-center text-md-start">Create your own Art Galleries and display your Art!</h1>
                 </div>
                 <div class="col-lg-6 d-flex justify-content-center align-items-center">
                     <div>
-                        <button class="btn btn-light">Create a Gallery</button>
+                        <a href="{% url 'gallery:create_gallery' %}" class="btn btn-light">Create a Gallery</a>
                     </div>
                 </div>
             </div>

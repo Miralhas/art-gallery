@@ -6,7 +6,7 @@ from django.db.models import F
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic import CreateView, DeleteView
+from django.views.generic import CreateView, DeleteView, ListView
 from django.views.generic.base import TemplateView, View
 from django.views.generic.detail import DetailView
 
@@ -125,6 +125,20 @@ class ArtworkPageView(DetailView):
 
         return HttpResponseRedirect(artwork.get_absolute_path())
     
+
+class GalleriesListView(ListView):
+    model = Gallery
+    template_name = "gallery/galleries_list.html"
+    queryset = Gallery.objects.all().order_by("-views")
+    paginate_by = 6
+
+
+class ArtworkListView(ListView):
+    model = Artwork
+    template_name = "gallery/artworks_list.html"
+    queryset = Artwork.objects.all().order_by("-views")
+    paginate_by = 6
+
 
 def edit_artwork_view(request, slug):
     if request.method != "PUT":
