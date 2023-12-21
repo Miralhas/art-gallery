@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Analytics {% endblock title %}
+
+{% block content %}
+    <h1 class="text-center mt-5">Analytics</h1>
+    <div class="container-md" style="height: 50vh;">
+        <div class="row p-3">
+            <div class="col">
+                <div>
+                    <canvas id="galleriesChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block script %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    function gera_cor(qtd=1){
+        var bg_color = []
+        var border_color = []
+        for(let i = 0; i < qtd; i++){
+            let r = Math.random() * 255;
+            let g = Math.random() * 255;
+            let b = Math.random() * 255;
+            bg_color.push(`rgba(${r}, ${g}, ${b}, ${0.2})`)
+            border_color.push(`rgba(${r}, ${g}, ${b}, ${1})`)
+        }
+        return [bg_color, border_color];
+    }
+    
+    fetch("/analytics/api/most_viewed_galleries")
+    .then(response => response.json())
+    .then(data => {
+        data.datasets[0].backgroundColor = gera_cor(4);
+        const ctx = document.querySelector("#galleriesChart").getContext("2d");
+        const colors = gera_cor(qtd=5);
+        new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+    </script>
+{% endblock script %}
