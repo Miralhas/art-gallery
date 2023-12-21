@@ -1,0 +1,43 @@
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+
+
+.section {
+	animation: fadeIn 1.3s forwards;
+}
+
+.filter {
+	display: inline-block;
+	position: relative;
+	color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+
+.filter::after {
+	content: '';
+	position: absolute;
+	width: 100%;
+	transform: scaleX(0);
+	height: 2px;
+	bottom: 0;
+	left: 0;
+	background-color: var(--primary);
+	transform-origin: bottom right;
+	transition: transform 0.25s ease-out;
+}
+
+.filter:hover::after {
+	transform: scaleX(1);
+	transform-origin: bottom left;
+}
