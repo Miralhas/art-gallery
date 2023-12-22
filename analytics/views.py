@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views.generic.base import TemplateView, View
 
 from accounts.models import User
-from analytics.utils import color_generator
+from analytics.utils import color_generator, single_color_bar_vs_all_others
 from gallery.models import Artwork, Gallery
 
 # Create your views here.
@@ -79,6 +79,29 @@ def get_gallery_analytics(request, slug):
         "labels": [artwork.title for artwork in artworks],
         "datasets": [{
             "label": f"Most Viewed Artworks in {gallery.gallery_name}",
+            "data": [artwork.views for artwork in artworks],
+            "backgroundColor": colors[0],
+            "borderColor": colors[1],
+            "borderWidth": 0.2
+        }]
+    }
+    return JsonResponse(data)
+
+
+def get_artwork_analytics_vs_all(request, slug):
+    artworks = Artwork.objects.order_by("views")
+    try:
+        artwork = Artwork.objects.get(slug=slug)
+    except Artwork.DoesNotExist:
+        return JsonResponse({"message": "Artwork provided does not exist!"}, status=404)
+    
+    artwork_index = Artwork.objects.order_by("views").filter(views__lt=artwork.views).count()
+    colors = single_color_bar_vs_all_others(artwork_index, len(artworks))
+
+    data = {
+        "labels": [artwork.title for artwork in artworks],
+        "datasets": [{
+            "label": f"{artwork.title} vs All Artworks",
             "data": [artwork.views for artwork in artworks],
             "backgroundColor": colors[0],
             "borderColor": colors[1],

@@ -1,41 +1,40 @@
 document.addEventListener("DOMContentLoaded", () => {
     const profileSection = document.querySelector("#profile-section");
     const informationSection = document.querySelector("#information-section");
-    const artworksSection = document.querySelector("#artworks-section");
+    const commentSection = document.querySelector("#comment-section");
     const chartSection = document.querySelector("#chart-section");
 
     const analyticsBtn = document.querySelector("#analytics-btn");
     const closeChartBtn = document.getElementById("close-chart-btn");
     const refreshChartBtn = document.getElementById("refresh-chart-btn");
 
-    refreshChartBtn.addEventListener("click", getGalleryChart);
+    refreshChartBtn.addEventListener("click", getArtworkChart);
 
     analyticsBtn.addEventListener("click", () => {
-        getGalleryChart();
+        getArtworkChart();
         chartSection.style.display = "block";
         profileSection.style.display = "none";
-        artworksSection.style.display = "none";
+        commentSection.style.display = "none";
         informationSection.style.display = "none";
     })
 
     closeChartBtn.addEventListener("click", () => {
         chartSection.style.display = "none";
         profileSection.style.display = "block";
-        artworksSection.style.display = "block";
+        commentSection.style.display = "block";
         informationSection.style.display = "block";
     })
-
 })
 
-function getGalleryChart() {
-    fetch(galleryUrl)
+function getArtworkChart() {
+    fetch(artworkUrl)
     .then(response => response.json())
     .then(data => {
-        let chartStatus = Chart.getChart("galleryChart");
+        let chartStatus = Chart.getChart("artworkChart");
         if (chartStatus != undefined) {
             chartStatus.destroy();
         }
-        const ctx = document.querySelector("#galleryChart").getContext("2d");
+        const ctx = document.querySelector("#artworkChart").getContext("2d");
         new Chart(ctx, {
             type: 'bar',
             data: data,
