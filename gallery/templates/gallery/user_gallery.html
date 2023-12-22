@@ -9,29 +9,32 @@
 {% endblock style %}
 
 {% block content %}
-    <section class="shadow">
+    <section id="profile-section" class="section shadow">
         <div class="container my-3">
             <div class="row justify-content-center text-center">
                 <div>
                     <p><span class="fs-5 fw-bold">Profile</span></p>
                 </div>
-                <div class="col-3">
+                <div class="col-4 col-lg-2">
                     <p class="gallery-paragraph"><strong>Gallery Owner: </strong><a class="text-white" href="{{gallery.owner.get_absolute_path}}">{{gallery.owner.username}}</a></p>
                 </div>
 
-                <div class="col-3">
+                <div class="col-4 col-lg-2">
                     <p class="gallery-paragraph"><strong>Gallery Artworks: </strong>{{gallery.artworks.count}}</p>
                 </div>
 
-                <div class="col-3">
+                <div class="col-4 col-lg-2">
                     <p class="gallery-paragraph"><strong>Gallery Views: </strong>{{gallery.views}} <i class="bi bi-eye-fill opacity-75 ms-1"></i> </p> 
+                </div>
+                <div class="col-4 col-lg-2">
+                    <p class="gallery-paragraph"><a id="analytics-btn" class="text-white" style="cursor: pointer;"><strong>Gallery Analytics</strong></a></p> 
                 </div>
             </div>
         </div>
     </section>
 
 
-    <section class="shadow-lg">
+    <section id="information-section" class="section shadow-lg">
         <div class="container-fluid" data-bs-theme="dark">
             <div class="row">
                 <div class="col">
@@ -127,7 +130,7 @@
         </div>
     </section>
 
-    <section class="shadow-lg">
+    <section id="artworks-section" class="section shadow-lg">
         <div class="container-md pt-5" data-bg-theme="dark">
             <div class="row p-4">
                 <h2 class="text-center mb-4">Artworks</h2>
@@ -203,6 +206,22 @@
             </nav>
         </div>
     </section>
+
+    <section id="chart-section" class="section" style="display: none;">
+        <div class="container-md pt-5">
+            <div class="row">
+                <div class="d-flex justify-content-start align-items-center">
+                    <button id="close-chart-btn" class="btn outline-btn mb-1"><i class="bi bi-arrow-left"></i> Back</button>
+                    <h1 class="mx-auto mb-3">Most Viewed Artworks in {{gallery.gallery_name}}</h1>
+                </div>
+                <div class="col">
+                    <div>
+                        <canvas id="galleryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock content %}
 
 {% block script %}
@@ -210,7 +229,10 @@
         let slug = "{{gallery.slug}}";
         const galleryOwner = "{{gallery.owner}}";
         const path = "{{request.path}}";
+        const galleryUrl = "{% url 'analytics:gallery' gallery.slug %}";
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{% static 'gallery/edit_gallery.js' %}"></script>
+    <script src="{% static 'gallery/gallery_chart.js' %}"></script>
 {% endblock script %}
 

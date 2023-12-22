@@ -95,8 +95,10 @@ class UserGallerieView(DetailView):
     def get_context_data(self, **kwargs):
         gallery = Gallery.objects.get(slug=self.kwargs["slug"])
         Gallery.objects.filter(slug=self.kwargs["slug"]).update(views=F("views") + 1)
+        
+        queryset = gallery.artworks.all()
+        artworks = sorted(queryset, key=lambda artwork: artwork.review_status["rating"], reverse=True)
 
-        artworks = gallery.artworks.all().order_by("-views")
         paginator = Paginator(artworks, 6)
         page_number = self.request.GET.get("page")
         page_obj = paginator.get_page(page_number)
@@ -153,10 +155,11 @@ class GalleriesListView(ListView):
 class ArtworkListView(ListView):
     model = Artwork
     template_name = "gallery/artworks_list.html"
-    queryset = Artwork.objects.all().order_by("-views")
+    queryset = Artwork.objects.filter()
+    artworks = sorted(queryset, key=lambda artwork: artwork.review_status["rating"], reverse=True)
 
     def get_context_data(self, **kwargs):
-        paginator = Paginator(self.queryset, 6)
+        paginator = Paginator(self.artworks, 6)
         page_number = self.request.GET.get("page")
         page_obj = paginator.get_page(page_number)
 

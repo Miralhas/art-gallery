@@ -64,3 +64,25 @@ def get_most_viewed_user_profiles(request):
     }
 
     return JsonResponse(data)
+
+
+def get_gallery_analytics(request, slug):
+    galleries_queryset = Gallery.objects.filter(slug=slug)
+    if not galleries_queryset.exists():
+        return JsonResponse({"message": "Gallery provided does not exist!"}, status=404)
+    
+    gallery = galleries_queryset.first()
+    artworks = gallery.artworks.order_by("views")
+    colors = color_generator(len(artworks))
+
+    data = {
+        "labels": [artwork.title for artwork in artworks],
+        "datasets": [{
+            "label": f"Most Viewed Artworks in {gallery.gallery_name}",
+            "data": [artwork.views for artwork in artworks],
+            "backgroundColor": colors[0],
+            "borderColor": colors[1],
+            "borderWidth": 0.2
+        }]
+    }
+    return JsonResponse(data)

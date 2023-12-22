@@ -44,14 +44,20 @@
 							<li class="nav-item">
 								<a class="nav-color nav-link" href="{% url 'gallery:artworks' %}">Artworks</a>
 							</li>
+							<li class="nav-item me-2">
+								<a class="nav-color nav-link" href="{% url 'analytics:index' %}">Analytics</a>
+							</li>
 						</ul>
 						<form action="{% url 'gallery:search' %}" method="get" class="d-flex me-auto" role="search">
 							<input class="header-form form-control me-2" type="search" placeholder="Search for Galleries" aria-label="Search" name="q" />
 							<button class="btn outline-btn" type="submit">Search</button>
 						</form>
 						<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+							<!-- <li class="nav-item me-2">
+								<a class="nav-color nav-link" href="">Analytics</a>
+							</li> -->
 							{% if user.is_authenticated %}
-								<li class="pfp-item dropdown pe-2">
+								<li class="pfp-item dropdown pe-2 d-flex align-items-center">
 									<a class="nav-pfp nav-color d-flex mt-lg-0 mt-2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 										<img class="pfp-img img-fluid rounded-circle" src="{{user.profile_picture.url}}">
 										<span class="d-flex align-items-center">{{user.username}}</span>

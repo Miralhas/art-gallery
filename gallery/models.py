@@ -18,7 +18,7 @@ class Gallery(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     description = models.TextField(blank=True)
     is_public = models.BooleanField(default=True)
-    cover_photo = models.ImageField(upload_to=gallery_cover_photo_path, null=True, blank=True)
+    cover_photo = models.ImageField(upload_to=gallery_cover_photo_path, default="profile_pictures/default.jpg", null=True, blank=True)
     slug = models.SlugField(max_length=255, unique=True, blank=False)
     views = models.IntegerField(default=0)
 
@@ -47,14 +47,17 @@ class Artwork(models.Model):
         total_reviews = len(reviews)
         try:
             rating = sum([review.stars for review in reviews]) // total_reviews
+            float_rating = sum([review.stars for review in reviews]) / total_reviews
         except ZeroDivisionError:
             rating = 0
+            float_rating = 0
         filled_stars = range(1, rating+1)
         unfilled_stars = range(rating+1, 6)
 
         return {
             "total_reviews": total_reviews,
             "rating": rating,
+            "float_rating": float_rating,
             "filled_stars": filled_stars,
             "unfilled_stars": unfilled_stars,
         }
