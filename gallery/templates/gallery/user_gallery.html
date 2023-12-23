@@ -212,9 +212,10 @@
             <div class="row">
                 <div class="d-flex justify-content-start align-items-center">
                     <button id="close-chart-btn" class="btn outline-btn mb-1"><i class="bi bi-arrow-left"></i> Back</button>
-                    <h1 class="mx-auto mb-3">Most Viewed Artworks in {{gallery.gallery_name}}</h1>
+                    <h1 class="mx-auto mb-0">Most Viewed Artworks in {{gallery.gallery_name}}</h1>
                     <button id="refresh-chart-btn" class="btn outline-btn mb-1">Refresh <i class="bi bi-arrow-clockwise" style="font-size: 0.875rem;"></i></button>
                 </div>
+                <small class="text-center mb-3" style="color: #fff; opacity: 0.5;">chart displaying the most viewed artworks in this gallery</small>
                 <div class="col d-flex justify-content-center">
                     <div style="width: 1000px;">
                         <canvas id="galleryChart"></canvas>
