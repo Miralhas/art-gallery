@@ -19,7 +19,7 @@ class UserManager(BaseUserManager):
         # Apenas os necessários para autenticação: ...create_user(email, password)
         # Caso o seu User Model tenha novos campos eles serão pegos pelo **extra_fields.
         # User.objects.create_user(email, password, date_of_birth, phone_number)
-        # date_of_birth e phone_number são colunas que vc adicionou no User(AbstractUser)
+        # date_of_birth e phone_number são colunas que vc adicionou no User(AbstractBaseUser)
         user = self.model(
             email=email,
             is_staff=is_staff, 
