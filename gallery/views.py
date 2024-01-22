@@ -82,7 +82,7 @@ class DeleteArtworkView(LoginRequiredMixin, DeleteView):
     model = Artwork
 
     def get_success_url(self):
-        gallery = Gallery.objects.get(artworks__slug="athena")
+        gallery = Gallery.objects.get(artworks__slug=self.kwargs["slug"])
         return gallery.get_absolute_path()
 
 
